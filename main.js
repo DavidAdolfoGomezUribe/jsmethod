@@ -143,6 +143,3 @@ console.log("sigiente ejercicio");
 
 
 
-
-
-  
