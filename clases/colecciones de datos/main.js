@@ -10,7 +10,7 @@ salones.shift()//elmina el primer elemento
 
 salones.pop()//elimina el ultimo elemento 
 
-salones.indexOf("b")
+salones.indexOf("b")//retorna la ubicacion del elemento
 
 salones.splice(1,2,"asdf", "zz")//splice(elimino desde, elimnino hasta, añade esto "asdf")
 
