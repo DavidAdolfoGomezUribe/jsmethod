@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise.race(), Promise.any(), Promise.all()</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      line-height: 1.6;
+    }
+    h1 {
+      color: #333;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+    }
+    .section {
+      margin-bottom: 40px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    pre {
+      background-color: #f4f4f4;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+    .result {
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #e9ecef;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Explicación interactiva de <code>Promise.race()</code>, <code>Promise.any()</code> y <code>Promise.all()</code></h1>
+
+    <!-- Sección Promise.race -->
+    <div class="section">
+      <h2><code>Promise.race()</code></h2>
+      <p>La primera promesa que se resuelva (ya sea cumplida o rechazada) determina el resultado.</p>
+      <button onclick="runRace()">Ejecutar Promise.race()</button>
+      <pre>
+// Ejemplo de Promise.race()
+const promises = [
+  new Promise((resolve) => setTimeout(() => resolve('Promesa 1'), 1000)),
+  new Promise((resolve) => setTimeout(() => resolve('Promesa 2'), 500)),
+  new Promise((resolve, reject) => setTimeout(() => reject('Error en Promesa 3'), 200))
+];
+
+Promise.race(promises)
+  .then(result => console.log('Resultado:', result))
+  .catch(error => console.error('Error:', error));
+      </pre>
+      <div class="result" id="raceResult"></div>
+    </div>
+
+    <!-- Sección Promise.any -->
+    <div class="section">
+      <h2><code>Promise.any()</code></h2>
+      <p>La primera promesa que se cumpla (resuelva) determina el resultado. Si todas las promesas son rechazadas, se lanza un error agregado.</p>
+      <button onclick="runAny()">Ejecutar Promise.any()</button>
+      <pre>
+// Ejemplo de Promise.any()
+const promises = [
+  new Promise((resolve, reject) => setTimeout(() => reject('Error en Promesa 1'), 1000)),
+  new Promise((resolve) => setTimeout(() => resolve('Promesa 2'), 500)),
+  new Promise((resolve, reject) => setTimeout(() => reject('Error en Promesa 3'), 200))
+];
+
+Promise.any(promises)
+  .then(result => console.log('Resultado:', result))
+  .catch(error => console.error('Error:', error));
+      </pre>
+      <div class="result" id="anyResult"></div>
+    </div>
+
+    <!-- Sección Promise.all -->
+    <div class="section">
+      <h2><code>Promise.all()</code></h2>
+      <p>Todas las promesas deben resolverse para obtener el resultado. Si alguna promesa es rechazada, el resultado será un error.</p>
+      <button onclick="runAll()">Ejecutar Promise.all()</button>
+      <pre>
+// Ejemplo de Promise.all()
+const promises = [
+  new Promise((resolve) => setTimeout(() => resolve('Promesa 1'), 1000)),
+  new Promise((resolve) => setTimeout(() => resolve('Promesa 2'), 500)),
+  new Promise((resolve, reject) => setTimeout(() => reject('Error en Promesa 3'), 200))
+];
+
+Promise.all(promises)
+  .then(results => console.log('Resultados:', results))
+  .catch(error => console.error('Error:', error));
+      </pre>
+      <div class="result" id="allResult"></div>
+    </div>
+  </div>
+
+  <script>
+    // Función para Promise.race
+    function runRace() {
+      const promises = [
+        new Promise((resolve) => setTimeout(() => resolve('Promesa 1'), 1000)),
+        new Promise((resolve) => setTimeout(() => resolve('Promesa 2'), 500)),
+        new Promise((resolve, reject) => setTimeout(() => reject('Error en Promesa 3'), 200))
+      ];
+
+      Promise.race(promises)
+        .then(result => document.getElementById('raceResult').innerText = `Resultado: ${result}`)
+        .catch(error => document.getElementById('raceResult').innerText = `Error: ${error}`);
+    }
+
+    // Función para Promise.any
+    function runAny() {
+      const promises = [
+        new Promise((resolve, reject) => setTimeout(() => reject('Error en Promesa 1'), 1000)),
+        new Promise((resolve) => setTimeout(() => resolve('Promesa 2'), 500)),
+        new Promise((resolve, reject) => setTimeout(() => reject('Error en Promesa 3'), 200))
+      ];
+
+      Promise.any(promises)
+        .then(result => document.getElementById('anyResult').innerText = `Resultado: ${result}`)
+        .catch(error => document.getElementById('anyResult').innerText = `Error: ${error.errors}`);
+    }
+
+    // Función para Promise.all
+    function runAll() {
+      const promises = [
+        new Promise((resolve) => setTimeout(() => resolve('Promesa 1'), 1000)),
+        new Promise((resolve) => setTimeout(() => resolve('Promesa 2'), 500)),
+        new Promise((resolve, reject) => setTimeout(() => reject('Error en Promesa 3'), 200))
+      ];
+
+      Promise.all(promises)
+        .then(results => document.getElementById('allResult').innerText = `Resultados: ${results}`)
+        .catch(error => document.getElementById('allResult').innerText = `Error: ${error}`);
+    }
+  </script>
+</body>
+</html>
