@@ -72,7 +72,7 @@ async function ponerEnMarcha(marca) {
         
         var marca1 = await abriVehiculo(marca)
         var marca2 = await encendervehiculo(marca1)
-        encenderLuces(marca2).then(()=>{
+        await encenderLuces(marca2).then(()=>{
             console.log("arrancar")
 
         })
