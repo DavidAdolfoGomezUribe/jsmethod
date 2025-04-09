@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div id="contenedor">
+        <h2>Lista de personajes de Star Wars</h2>
+
+    </div>
+
+    <script>
+        const url = "https://swapi.dev/api/people/?page=3"
+        const contenedor = document.getElementById("contenedor")
+
+        const tabla = document.createElement("table");
+        
+        tabla.classList.add("bodycontainer")
+
+        tabla.style.background="red"
+        tabla.style.padding="5px 5px"
+        tabla.style.borderRadius="10px"
+        
+        const thead = document.createElement("thead");
+        thead.style.background="blue"
+        thead.style.borderRadius="50%"
+        thead.style.border=" 10px solid black"
+
+
+        const tbody = document.createElement("tbody");
+
+        //thead
+        const trencabezado = document.createElement("tr")
+        const encabezados = ["Nombre", "Altura", "Peso", "Color de cabello", "Genero"];
+        encabezados.forEach((elemento)=>{
+            const th = document.createElement("th");
+            th.textContent = elemento;
+            trencabezado.appendChild(th)
+        })
+
+        thead.appendChild(trencabezado)
+        tabla.appendChild(thead)
+        tabla.appendChild(tbody)
+        contenedor.appendChild(tabla)
+
+
+        for (let i = 1; i < 9; i++) {
+            
+            const url = `https://swapi.dev/api/people/?page=${i}`
+            
+        
+
+        fetch(url)
+        .then(respuesta => respuesta.json())
+        .then(info => {
+
+            
+            info.results.forEach(pj => {
+                const fila = document.createElement("tr")
+
+                const nombre = document.createElement("td");
+                nombre.textContent = pj.name;
+
+                const altura = document.createElement("td");
+                altura.textContent = pj.height;
+
+                const peso = document.createElement("td");
+                peso.textContent = pj.mass;
+
+                const cabello = document.createElement("td");
+                cabello.textContent = pj.hair_color;
+
+                const genero = document.createElement("td");
+                genero.textContent = pj.gender;
+
+                fila.appendChild(nombre);
+                fila.appendChild(altura);
+                fila.appendChild(peso);
+                fila.appendChild(cabello);
+                fila.appendChild(genero);
+                
+                tbody.appendChild(fila)
+            })
+        })
+        .catch(er => {
+            const error = document.createElement("h1")
+            error.textContent = "Error al traer datos!!!"
+            tabla.before(error);
+        })
+        
+    }
+    </script>
+</body>
+</html>
+
+
+<!-- <table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Juan</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Pepe</td>
+        </tr>
+    </tbody>
+</table> -->
